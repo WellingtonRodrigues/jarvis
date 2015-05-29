@@ -28,20 +28,14 @@ Para contribuir com a legibilidade do código, o projeto está se baseando no se
 
 ## Módulos
 
-- Logger
-Registra e consulta eventos do sistema.
+- Logger: registra e consulta eventos do sistema.
 
-- Question
-Banco de questões.
+- Question: banco de questões.
 
-- Test
-Testes propriamente ditos, montado usando questões do banco de questões.
+- Test: testes propriamente ditos, montado usando questões do banco de questões.
 
-- Test Result
-A resposta de um questionário.
+- Test Result: a resposta de um questionário.
 
-- User
-Autenticação, autorização, cargos e competências.
+- User: autenticação, autorização, cargos e competências.
 
-- App
-Inicia a aplicação e faz o "glue" entre os módulos.
+- App: inicia a aplicação e faz o "glue" entre os módulos.
