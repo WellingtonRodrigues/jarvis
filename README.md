@@ -12,6 +12,7 @@ https://docs.google.com/document/d/1IP1yQXQx0vLCqB0tyDUAtsIRGrQk6_yuZUCi42BvWs0/
 ## Style guide
 
 Nomeclatura em inglês.
+
 Para contribuir com a legibilidade do código, o projeto está se baseando no seguinte guia de estilos: https://github.com/felixge/node-style-guide.
 
 ## Estrutura de pastas
