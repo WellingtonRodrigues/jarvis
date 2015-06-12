@@ -1,0 +1,42 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="x-ua-compatible", content="ie=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+
+    block title
+      title= JARVIS
+
+    link(rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css")
+    link(rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css")
+    link(rel="stylesheet" href="/css/main.css")
+
+body
+  header
+    nav(role="navigation").navbar.navbar-default
+      .navbar-header
+        button(type="button", data-toggle="collapse", data-target=".navbar-ex1-collapse").navbar-toggle.collapsed
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a(href="#" ).navbar-brand JARVIS
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        ul.nav.navbar-nav
+          li.active: a(href="/questions") Questões
+          li: a(href="/tests") Testes
+        ul.nav.navbar-nav.navbar-right
+          li.dropdown
+            a.dropdown-toggle(href="#", data-toggle="dropdown",role="button", aria-expanded="false")
+              | Fulano da Costa
+              span.caret
+            ul.dropdown-menu(role="menu")
+              li: a(href="/profile") Configurações do Perfil
+              li: a(href="/logout") Sair
+
+  block content
+
+  script(src="/vendor/jquery/jquery-1.11.3.min.js")
+  script(src="/vendor/bootstrap/js/bootstrap.min.js")
+  script(src="/js/main.js")
