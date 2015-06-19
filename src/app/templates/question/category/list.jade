@@ -1,34 +1,23 @@
-extends ../layout.jade
+extends ../../layout.jade
 
 block content
   .container
     .row
       .col-md-12
-        h2 Questões
+        h2 Categorias de questões
 
     .row
       .col-md-8
-        form(method="get").text-right
-          .form-group.form-inline Filtar por categoria:
-            select.form-control
-              option Todas as categorias
-              option Categoria A
-              option Categoria B
-
         .list-group
           .list-group-item
             .list-group-item-text
               .row
                 .col-sm-6
                   h4
-                    a(href="/questions/1/edit") Questão 1
-
-                  h6
-                    ul.list-unstyled.list-inline
-                      li
-                        a(href="/questions/categories/1") Categoria A
-                      li
-                        a(href="/questions/categories/2") Categoria B
+                    a(href="/questions/1/edit")
+                      | Questão 1
+                      p.text-muted
+                        small Teste
                 .col-sm-6.text-right
                   a(href="/questions/1/edit").btn
                     .fa.fa-pencil.fa-lg
@@ -41,13 +30,6 @@ block content
                 .col-sm-6
                   h4
                     a(href="/questions/2/edit") Questão 2
-
-                  h6
-                    ul.list-unstyled.list-inline
-                      li
-                        a(href="/questions/categories/1") Categoria A
-                      li
-                        a(href="/questions/categories/2") Categoria B
                 .col-sm-6.text-right
                   a(href="/questions/2/edit").btn
                     .fa.fa-pencil.fa-lg

@@ -1,5 +1,12 @@
-function test(router) {
-  return router;
-}
+var express = require('express');
+var router = express.Router();
 
-module.exports = test;
+router.get('/', function(req, res) {
+  res.render('test/list');
+});
+
+router.get('/new', function(req, res) {
+  res.render('test/new');
+});
+
+module.exports = router;

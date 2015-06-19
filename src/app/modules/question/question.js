@@ -1,17 +1,24 @@
-function question(router) {
-  router.get('/', function(req, res) {
-    res.render('question/list');
-  });
+var express = require('express');
+var router = express.Router();
 
-  router.get('/new', function(req, res) {
+router.get('/', function(req, res) {
+  res.render('question/list');
+});
 
-  });
+router.get('/new', function(req, res) {
+  res.render('question/new');
+});
 
-  router.post('/new', function(req, res) {
-    res.redirect('../');
-  });
+router.post('/new', function(req, res) {
+  res.redirect('../');
+});
 
-  return router;
-};
+router.get('/categories', function(req, res) {
+  res.render('question/category/list');
+});
 
-module.exports = question;
+router.get('/categories/new', function(req, res) {
+  res.render('question/category/new');
+});
+
+module.exports = router;

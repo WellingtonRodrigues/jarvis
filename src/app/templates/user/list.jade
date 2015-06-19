@@ -1,0 +1,37 @@
+extends ../layout.jade
+
+block content
+  .container
+    .row
+      .col-md-12
+        h2 Usuários
+
+    .row
+      .col-md-8
+        .list-group
+          .list-group-item
+            .list-group-item-text
+              .row
+                .col-sm-6
+                  h4
+                    a(href="/users/1/edit") Fulano da Costa
+                .col-sm-6.text-right
+                  a(href="/users/1/edit").btn
+                    .fa.fa-pencil.fa-lg
+                  a(href="/users/1/remove").btn
+                    .fa.fa-trash.fa-lg
+
+          .list-group-item
+            .list-group-item-text
+              .row
+                .col-sm-6
+                  h4
+                    a(href="/users/2/edit") Siclano da Silva
+                .col-sm-6.text-right
+                  a(href="/users/2/edit").btn
+                    .fa.fa-pencil.fa-lg
+                  a(href="/users/2/remove").btn
+                    .fa.fa-trash.fa-lg
+
+      .col-md-4
+        a(href="/users/new").btn.btn-primary.btn-lg.btn-block Novo usuário

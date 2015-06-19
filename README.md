@@ -4,6 +4,7 @@
 
 1. NodeJS/NPM
 2. Git
+3. MongoDB
 
 ## Documento de requisitos de segurança
 

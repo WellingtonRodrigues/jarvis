@@ -1,0 +1,19 @@
+extends ../../layout.jade
+
+block content
+  .container
+    .row
+      .col-md-12
+        h2 Cadastrar categoria de questão
+
+    form(method="post")
+      .form-group
+        .row
+          .col-md-12
+            label Título
+            input.form-control(type="text", name="title")
+
+      .form-group
+        .row
+          .col-md-12.text-right
+            button.btn.btn-primary Salvar

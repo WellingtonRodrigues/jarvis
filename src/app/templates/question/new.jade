@@ -1,0 +1,53 @@
+extends ../layout.jade
+
+block content
+  .container
+    .row
+      .col-md-12
+        h2 Cadastrar questão
+
+    form(method="post")
+      .form-group
+        .row
+          .col-sm-8
+            label Título
+            input.form-control(type="text", name="title")
+            .help-block Para identificação do professor.
+          .col-sm-4
+            label Pontuação
+            select.form-control(name="score")
+              option 100%
+              option 90%
+              option 80%
+              option 70%
+              option 60%
+              option 50%
+
+      .form-group
+        label Descrição
+        textarea.form-control(name="description")
+
+      .form-group
+        .row
+          .col-sm-6
+            label Respostas
+            input.form-control(type="text", name="answer_title[0]")
+          .col-sm-2
+            label Peso
+            select.form-control(name="score")
+              option 100%
+              option 90%
+              option 80%
+              option 70%
+              option 60%
+              option 50%
+          .col-sm-4
+              label &nbsp;
+              div
+                button(type="button").btn.btn-link
+                  span.fa.fa-trash
+
+      .form-group
+        .row
+          .col-sm-6
+            input(type="text", placeholder="Nova resposta").form-control

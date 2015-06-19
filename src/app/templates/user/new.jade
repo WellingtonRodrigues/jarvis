@@ -1,0 +1,34 @@
+extends ../layout.jade
+
+block content
+  .container
+    .row
+      .col-md-12
+        h2 Cadastrar usuário
+
+    form(method="post")
+      .form-group
+        .row
+          .col-md-12
+            label Nome
+            input.form-control(type="text", name="name")
+
+      .form-group
+        .row
+          .col-md-12
+            label Email
+            input.form-control(type="text", name="email")
+
+      .form-group
+        .row
+          .col-md-12
+            label Cargo
+            select.form-control(name="role")
+              option Administrador
+              option Professor
+              option Aluno
+
+      .form-group.text-right
+        .row
+          .col-md-12
+            button.btn.btn-primary Cadastrar
