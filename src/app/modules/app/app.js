@@ -1,5 +1,6 @@
 var express = require('express');
 var expressApp = express();
+var passport = require('passport');
 var http = require('http').Server(expressApp);
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -9,7 +10,7 @@ var logger = require('../logger/logger');
 var question = require('../question/question');
 var test = require('../test/test');
 var testResult = require('../testResult/testResult');
-var user = require('../user/user');
+var user = require('../user/user')(passport);
 
 var PORT = 8500;
 var SECRET = 'secret';
@@ -27,6 +28,11 @@ var setSession = function() {
       maxAge: COOKIE_AGE
     }
   }));
+};
+
+var setPassport = function() {
+  expressApp.use(passport.initialize());
+  expressApp.use(passport.session());
 };
 
 var setBodyParser = function() {
@@ -64,6 +70,7 @@ var connectToDb = function(callback) {
 var app = {
   start: function() {
     setSession();
+    setPassport();
     setBodyParser();
     setViewEngine();
     setStaticMiddleware();
