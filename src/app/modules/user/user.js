@@ -57,12 +57,16 @@ module.exports = function(passport) {
     })(req, res, next);
   });
 
+  router.get('/new', function(req, res){
+    res.render('user/new');
+  });
+
   router.post('/register', function(req, res) {
     var user = {
       email: req.body.email,
       name: req.body.name,
       password: req.body.password && crypto.createHash('sha512').update(req.body.password).digest('hex'),
-      roles: 'student'
+      roles: req.body.roles
     };
     User.findOne({email: user.email}, function(err, userExists) {
       if (err) {

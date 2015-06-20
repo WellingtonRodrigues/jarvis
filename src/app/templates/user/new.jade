@@ -6,7 +6,7 @@ block content
       .col-md-12
         h2 Cadastrar usuário
 
-    form(method="post")
+    form(method="post", action='register')
       .form-group
         .row
           .col-md-12
@@ -19,16 +19,21 @@ block content
             label Email
             input.form-control(type="text", name="email")
 
+      .row
+        .col-md-12
+          label Senha
+          input.form-control(type="password", name="password")
+
       .form-group
         .row
           .col-md-12
             label Cargo
-            select.form-control(name="role")
-              option Administrador
-              option Professor
-              option Aluno
+            select.form-control(name="roles")
+              option(value='admin') Administrador
+              option(value='professor') Professor
+              option(value='student') Aluno
 
       .form-group.text-right
         .row
           .col-md-12
-            button.btn.btn-primary Cadastrar
+            button.btn.btn-primary(type='submit') Cadastrar
