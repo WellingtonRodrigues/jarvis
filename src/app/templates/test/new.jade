@@ -1,0 +1,37 @@
+extends ../layout.jade
+
+block content
+  .container
+    .row
+      .col-md-12
+        h2 Cadastrar teste
+
+    form(method="post")
+      .form-group
+        .row
+          .col-md-12
+            label Nome
+            input.form-control(type="text", name="title")
+            .help-block Para identificação do professor.
+
+      .form-group
+        label Instruções
+        textarea.form-control(name="description")
+
+      .form-group
+        label Duração
+        input(type="time", name="duration").form-control
+        .help-block Limite de tempo para finalizar o teste.
+
+      .form-group
+        label Senha
+        input(name="password").form-control
+        .help-block Deixe em branco para não exigir senha.
+
+      .form-group
+        label Endereço de rede
+        input(name="network", placeholder="192.168.1.*").form-control
+        .help-block Deixe em branco para não restringir endereço de rede.
+
+      .form-group.text-right
+        button(type="submit").btn.btn-primary Salvar

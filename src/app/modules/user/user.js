@@ -57,6 +57,10 @@ module.exports = function(passport) {
     })(req, res, next);
   });
 
+  router.get('/', function(req, res){
+    res.render('user/list');
+  });
+
   router.get('/new', function(req, res){
     res.render('user/new');
   });
