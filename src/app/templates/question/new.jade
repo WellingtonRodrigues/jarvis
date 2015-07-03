@@ -8,15 +8,21 @@ block content
 
     form(method="post")
       .form-group
-        .row
-          .col-md-12
-            label Título
-            input.form-control(type="text", name="title")
-            .help-block Para identificação do professor.
+        label Título
+        input(type="text", name="title").form-control
+        .help-block Para identificação do professor.
+
+      .form-group
+        label Categorias
+        each category in categories
+          .checkbox
+            label
+              input(type="checkbox", name="categories[]", value=category._id)
+              = category.name
 
       .form-group
         label Descrição
-        textarea.form-control(name="description")
+        textarea(name="statement").form-control
 
       .row
         .col-sm-6.col-xs-6
@@ -27,9 +33,9 @@ block content
       .form-group
         .row
           .col-sm-6.col-xs-6
-            input.form-control.js-duplicate-row(type="text", name="answer_titles[]", placeholder="Nova resposta")
+            input(type="text", name="answer_titles[]", placeholder="Nova resposta").form-control.js-duplicate-row
           .col-sm-2.col-xs-3
-            select.form-control(name="answer_scores[]", disabled)
+            select(name="answer_scores[]", disabled).form-control
               each score in [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0]
                 option(value=score)= score * 100 + '%'
           .col-sm-4.col-xs-3

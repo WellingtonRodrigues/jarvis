@@ -8,9 +8,9 @@ var questionAnswerSchema = new Schema({
 
 var questionSchema = new Schema({
   title: { type: String, required: true },
-  description: { type: String, required: true },
+  statement: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  _category: { type: Number, ref: 'QuestionCategory' },
+  _categories: [{ type: Schema.Types.ObjectId, ref: 'QuestionCategory' }],
   answers: [questionAnswerSchema]
 });
 

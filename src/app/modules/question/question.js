@@ -6,7 +6,18 @@ var logger = require('../logger/logger');
 
 module.exports = function(passport) {
   router.get('/', function(req, res) {
-    res.render('question/list');
+    Question
+      .find()
+      .populate('_categories')
+      .sort({ title: 1 })
+      .exec(function(err, questions) {
+        if (err)
+          logger('error', err);
+
+        console.log(questions);
+
+        res.render('question/list', { questions: questions });
+      });
   });
 
   router.get('/new', function(req, res) {
@@ -17,21 +28,25 @@ module.exports = function(passport) {
         if (err)
           logger('error', err);
 
-        res.render('question/new');
+        res.render('question/new', { categories: categories });
       });
   });
 
   router.post('/new', function(req, res) {
     var question = new Question({
       title: req.body.title,
-      description: req.body.description
+      statement: req.body.statement
     });
 
-    for (var i = 0; i < req.body.answer_titles.length; i++) {
+    for (var i = 0; i < req.body.answer_titles.length - 1; i++) {
       question.answers.push({
         title: req.body.answer_titles[i],
-        score: req.body.answer_scores[i]
+        score: parseInt(req.body.answer_scores[i])
       });
+    }
+
+    for (i = 0; i < req.body.categories.length; i++) {
+      question._categories.push(req.body.categories[i]);
     }
 
     question.save(function(err, question) {
@@ -41,6 +56,15 @@ module.exports = function(passport) {
       }
 
       logger('info', 'Question created: ' + question._id)
+      res.redirect('/questions');
+    });
+  });
+
+  router.get('/:questionId/remove', function(req, res) {
+    Question.findByIdAndRemove(req.params.questionId, function(err) {
+      if (err)
+        logger('error', err);
+
       res.redirect('/questions');
     });
   });

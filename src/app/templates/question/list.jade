@@ -16,43 +16,27 @@ block content
               option Categoria B
 
         .list-group
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/questions/1/edit") Questão 1
-
-                  h6
-                    ul.list-unstyled.list-inline
-                      li
-                        a(href="/questions/categories/1") Categoria A
-                      li
-                        a(href="/questions/categories/2") Categoria B
-                .col-sm-6.text-right
-                  a(href="/questions/1/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/questions/1/remove").btn
-                    .fa.fa-trash.fa-lg
-
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/questions/2/edit") Questão 2
-
-                  h6
-                    ul.list-unstyled.list-inline
-                      li
-                        a(href="/questions/categories/1") Categoria A
-                      li
-                        a(href="/questions/categories/2") Categoria B
-                .col-sm-6.text-right
-                  a(href="/questions/2/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/questions/2/remove").btn
-                    .fa.fa-trash.fa-lg
+          if questions && questions.length > 0
+            each question in questions
+              .list-group-item
+                .list-group-item-text
+                  .row
+                    .col-sm-6
+                      h4: a(href="/questions/" + question._id + "/edit")= question.title
+                      if question._categories && question._categories.length > 0
+                        h6
+                          ul.list-unstyled.list-inline
+                            each category in question._categories
+                              li
+                                a(href="/questions/categories/" + category._id)= category.name
+                    .col-sm-6.text-right
+                      a(href="/questions/" + question._id + "/edit").btn
+                        .fa.fa-pencil.fa-lg
+                      a(href="/questions/" + question._id + "/remove").btn
+                        .fa.fa-trash.fa-lg
+          else
+            .list-group-item
+              p Nenhuma questão encontrada.
 
       .col-md-4
         a(href="/questions/new").btn.btn-primary.btn-lg.btn-block Nova questão
