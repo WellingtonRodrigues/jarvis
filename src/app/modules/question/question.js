@@ -6,24 +6,43 @@ var logger = require('../logger/logger');
 
 module.exports = function(passport) {
   router.get('/', function(req, res) {
-    Question
-      .find()
+    var query = { };
+
+    if (req.query.category_id && req.query.category_id != '')
+      query = {
+        _categories: {
+          $in: [req.query.category_id]
+        }
+      };
+
+    console.log(query);
+
+    var promise = Question
+      .find(query)
       .populate('_categories')
       .sort({ title: 1 })
-      .exec(function(err, questions) {
-        if (err)
-          logger('error', err);
+      .exec();
 
-        QuestionCategory
-          .find()
-          .sort({ title: 1 })
-          .exec(function(err, categories) {
-            if (err)
-              logger('error', err);
+      promise
+        .then(function(questions) {
+          QuestionCategory
+            .find()
+            .sort({ title: 1 })
+            .exec(function(err, categories) {
+              if (err)
+                logger('error', err);
 
-            res.render('question/list', { questions: questions, categories: categories });
-          });
-      });
+              res.render('question/list', {
+                questions: questions,
+                categories: categories,
+                currentCategoryId: req.query.category_id
+              });
+            });
+        })
+        .then(null, function(err) {
+          if (err)
+            logger('error', err);
+        });
   });
 
   router.get('/new', function(req, res) {

@@ -8,12 +8,15 @@ block content
 
     .row
       .col-md-8
-        form(method="get").text-right
+        form(method="get", action="").text-right
           .form-group.form-inline Filtar por categoria:
-            select.form-control
-              option Todas as categorias
+            select(name="category_id", onchange="form.submit()").form-control
+              option(value="") Todas as categorias
               each category in categories
-                option(value=category._id)= category.name
+                if category._id == currentCategoryId
+                  option(value=category._id, selected)= category.name
+                else
+                  option(value=category._id)= category.name
 
         .list-group
           if questions && questions.length > 0
