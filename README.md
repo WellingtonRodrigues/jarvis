@@ -18,7 +18,8 @@ Para contribuir com a legibilidade do código, o projeto está se baseando no se
 
 ## Estrutura de pastas
 
-/src - todo o código do aplicativo
+```
+/src
 	/app
 		/modules
 		/templates
@@ -27,17 +28,30 @@ Para contribuir com a legibilidade do código, o projeto está se baseando no se
 		/img
 		/js
 		/vendor
+```
 
 ## Módulos
 
-- Logger: registra e consulta eventos do sistema.
+### App
 
-- Question: banco de questões.
+Inicia a aplicação e faz o "glue" entre os módulos. ([README](https://github.com/sergioaugrod/jarvis/tree/master/src/app/modules/app))
 
-- Test: testes propriamente ditos, montado usando questões do banco de questões.
+### Logger
 
-- Test Result: a resposta de um questionário.
+Registra e consulta eventos do sistema. ([README](https://github.com/sergioaugrod/jarvis/tree/master/src/app/modules/logger))
 
-- User: autenticação, autorização, cargos e competências.
+### Question
 
-- App: inicia a aplicação e faz o "glue" entre os módulos.
+Banco de questões.
+
+### Test
+
+Testes propriamente ditos, montado usando questões do banco de questões. Também é responsável por gerar, aplicar e exibir o resultado de testes.
+
+### User
+
+Autenticação, autorização, cargos e competências.
+
+### Importer
+
+Importa arquivos exportados pelo Moodle.

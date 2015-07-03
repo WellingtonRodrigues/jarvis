@@ -2,7 +2,7 @@
 
 ## Signature
 
-logger(errorLevel, message[, consoleOutput = true])
+`logger(errorLevel, message[, consoleOutput = true])`
 
 ## Example
 
