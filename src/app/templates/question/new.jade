@@ -27,23 +27,11 @@ block content
       .form-group
         .row
           .col-sm-6.col-xs-6
-            input.form-control(type="text", name="answers_title[]")
+            input.form-control.js-duplicate-row(type="text", name="answer_titles[]", placeholder="Nova resposta")
           .col-sm-2.col-xs-3
-            select.form-control(name="scores[]")
-              each score in [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]
-                option= score + '%'
-          .col-sm-4.col-xs-3
-            button(type="button").btn.btn-link.js-remove-row
-              span.fa.fa-trash
-
-      .form-group
-        .row
-          .col-sm-6.col-xs-6
-            input.form-control.js-duplicate-row(type="text", name="answers_title[]", placeholder="Nova resposta")
-          .col-sm-2.col-xs-3
-            select.form-control(name="scores[]", disabled)
-              each score in [100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0]
-                option= score + '%'
+            select.form-control(name="answer_scores[]", disabled)
+              each score in [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0]
+                option(value=score)= score * 100 + '%'
           .col-sm-4.col-xs-3
             button(type="button", disabled).btn.btn-link.js-remove-row
               span.fa.fa-trash

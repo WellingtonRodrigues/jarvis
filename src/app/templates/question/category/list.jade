@@ -9,32 +9,23 @@ block content
     .row
       .col-md-8
         .list-group
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/questions/1/edit")
-                      | Questão 1
-                      p.text-muted
-                        small Teste
-                .col-sm-6.text-right
-                  a(href="/questions/1/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/questions/1/remove").btn
-                    .fa.fa-trash.fa-lg
-
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/questions/2/edit") Questão 2
-                .col-sm-6.text-right
-                  a(href="/questions/2/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/questions/2/remove").btn
-                    .fa.fa-trash.fa-lg
+          if categories && categories.length > 0
+            each category in categories
+              .list-group-item
+                .list-group-item-text
+                  .row
+                    .col-sm-6
+                      h4
+                        a(href="/questions/categories/" + category._id + "/edit")= category.name
+                    .col-sm-6.text-right
+                      a(href="/questions/categories/" + category._id + "/edit").btn
+                        .fa.fa-pencil.fa-lg
+                      a(href="/questions/categories/" + category._id + "/remove").btn
+                        .fa.fa-trash.fa-lg
+          else
+            .list-group-item
+              .list-group-item-text
+                p Nenhuma categoria encontrada.
 
       .col-md-4
         a(href="/questions/new").btn.btn-primary.btn-lg.btn-block Nova questão

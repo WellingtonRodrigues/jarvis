@@ -9,29 +9,24 @@ block content
     .row
       .col-md-8
         .list-group
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/users/1/edit") Fulano da Costa
-                .col-sm-6.text-right
-                  a(href="/users/1/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/users/1/remove").btn
-                    .fa.fa-trash.fa-lg
-
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/users/2/edit") Siclano da Silva
-                .col-sm-6.text-right
-                  a(href="/users/2/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/users/2/remove").btn
-                    .fa.fa-trash.fa-lg
+          if users
+            each user in users
+              .list-group-item
+                .list-group-item-text
+                  .row
+                    .col-sm-6
+                      h4
+                        a(href="/users/" + user.id + "/edit")= user.name
+                        .text-muted= user.role
+                    .col-sm-6.text-right
+                      a(href="/users/" + user.id + "/edit").btn
+                        .fa.fa-pencil.fa-lg
+                      a(href="/users/" + user.id + "/remove").btn
+                        .fa.fa-trash.fa-lg
+          else
+            .list-group-item
+              .list-group-item-text
+                p Nenhum usuário encontrado.
 
       .col-md-4
         a(href="/users/new").btn.btn-primary.btn-lg.btn-block Novo usuário

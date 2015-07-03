@@ -1,0 +1,41 @@
+doctype html
+html(lang="pt-br")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="x-ua-compatible", content="ie=edge")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+
+    block title
+      title JARVIS - Autenticação
+
+    link(rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css")
+    link(rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css")
+    link(rel="stylesheet" href="/css/main.css")
+
+body
+  .container
+    .row
+      .col-md-6.col-md-offset-3
+        .panel.panel-default
+          .panel-heading
+            h1 Autenticação
+
+          .panel-body
+            include ../notification/list.jade
+
+            form(method="post", action="")
+              .form-group
+                label Email
+                input(name="email").form-control
+
+              .form-group
+                label Senha
+                input(type="password", name="password").form-control
+
+              .form-group.text-right
+                a(href="/users/register").small Cadastre-se
+                button.btn.btn-primary Entrar
+
+  script(src="/vendor/jquery/jquery-1.11.3.min.js")
+  script(src="/vendor/bootstrap/js/bootstrap.min.js")
+  script(src="/js/main.js")

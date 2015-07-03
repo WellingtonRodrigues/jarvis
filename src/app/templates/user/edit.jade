@@ -4,29 +4,23 @@ block content
   .container
     .row
       .col-md-12
-        h2 Cadastrar usuário
+        h2 Editar usuário
 
         include ../notification/list.jade
 
         form(method="post", action="")
           .form-group
             label Nome
-            input.form-control(name="name")
+            input.form-control(name="name", value=user.name)
 
           .form-group
             label Email
-            input.form-control(name="email")
+            input.form-control(name="email", value=user.email)
 
           .form-group
             label Senha
             input.form-control(type="password", name="password")
-
-          .form-group
-            label Cargo
-            select.form-control(name="role")
-              option(value='admin') Administrador
-              option(value='professor') Professor
-              option(value='student') Aluno
+            .help-block Preencha para alterar
 
           .form-group.text-right
             .row

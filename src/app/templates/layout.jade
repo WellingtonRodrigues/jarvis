@@ -29,13 +29,13 @@ body
           li: a(href="/users") Usuários
         ul.nav.navbar-nav.navbar-right
           li.dropdown
-            a.dropdown-toggle(href="#", data-toggle="dropdown",role="button", aria-expanded="false")
+            a(href="#", data-toggle="dropdown",role="button", aria-expanded="false").dropdown-toggle
               | Fulano da Costa
               span.caret
-            ul.dropdown-menu(role="menu")
+            ul(role="menu").dropdown-menu
               li: a(href="/users/me") Configurações do Perfil
               li: a(href="/logger") Log de acesso
-              li: a(href="/logout") Sair
+              li: a(href="/users/logout") Sair
 
   block content
 

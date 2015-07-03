@@ -5,9 +5,11 @@ var http = require('http').Server(expressApp);
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var flash = require('connect-flash');
+var messages = require('express-messages');
 var mongoose = require('mongoose');
 var logger = require('../logger/logger');
-var question = require('../question/question');
+var question = require('../question/question')(passport);
 var test = require('../test/test');
 var testResult = require('../testResult/testResult');
 var user = require('../user/user')(passport);
@@ -17,7 +19,32 @@ var SECRET = 'secret';
 var KEY = 'session';
 var COOKIE_AGE = 3600000;
 
-var setSession = function() {
+var App = {};
+
+App.start = function() {
+  logger('info', 'Starting JARVIS up...');
+
+  setSessionMiddleware();
+  setPassportAuthenticationMiddleware();
+  setBodyParserMiddleware();
+  setStaticFilesMiddleware();
+  setRouteLoggerMiddleware();
+  setFlashMessagesMiddleware();
+  setModuleRoutingMiddleware();
+  setViewEngine();
+
+  expressApp.get('/', function(req, res) {
+    res.redirect('/users/auth');
+  });
+
+  connectToDb(function() {
+    http.listen(PORT, function() {
+      logger('info', 'JARVIS RUNNING ON: ' + PORT);
+    });
+  });
+};
+
+var setSessionMiddleware = function() {
   expressApp.use(cookieParser());
   expressApp.use(session({
     secret: SECRET,
@@ -30,12 +57,12 @@ var setSession = function() {
   }));
 };
 
-var setPassport = function() {
+var setPassportAuthenticationMiddleware = function() {
   expressApp.use(passport.initialize());
   expressApp.use(passport.session());
 };
 
-var setBodyParser = function() {
+var setBodyParserMiddleware = function() {
   expressApp.use(bodyParser.json());
   expressApp.use(bodyParser.urlencoded({
     extended: true
@@ -47,8 +74,27 @@ var setViewEngine = function() {
   expressApp.set('view engine', 'jade');
 };
 
-var setStaticMiddleware = function() {
+var setStaticFilesMiddleware = function() {
   expressApp.use(express.static('src/assets'));
+};
+
+var setRouteLoggerMiddleware = function() {
+  expressApp.use(function(req, res, next) {
+    if (req.user)
+      logger('info', req.path + ' request by ' + req.user.email);
+    else
+      logger('info', req.path + ' request by unauthorized user');
+
+    next();
+  });
+};
+
+var setFlashMessagesMiddleware = function() {
+  expressApp.use(flash());
+  expressApp.use(function(req, res, next) {
+    res.locals.messages = messages(req, res);
+    next();
+  });
 };
 
 var setModuleRoutingMiddleware = function() {
@@ -62,31 +108,9 @@ var connectToDb = function(callback) {
   mongoose.connect('mongodb://127.0.0.1:27017/jarvis');
   mongoose.connection.once('open', callback);
   mongoose.connection.on('error', function(err) {
-    console.error(err);
+    logger('error', err);
     process.exit();
   });
 };
 
-var app = {
-  start: function() {
-    setSession();
-    setPassport();
-    setBodyParser();
-    setViewEngine();
-    setStaticMiddleware();
-    setModuleRoutingMiddleware();
-
-    expressApp.get('/', function(req, res) {
-      res.render('layout');
-    });
-
-    connectToDb(function() {
-      http.listen(PORT, function() {
-        console.log('JARVIS RUNNING ON: ' + PORT);
-        logger.register('info', 'JARVIS RUNNING ON: ' + PORT);
-      });
-    });
-  }
-};
-
-module.exports = app;
+module.exports = App;

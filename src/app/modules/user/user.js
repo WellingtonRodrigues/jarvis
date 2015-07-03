@@ -1,68 +1,111 @@
+var express = require('express');
+var crypto = require('crypto');
+var router = express.Router();
+var User = require('./model');
+var logger = require('../logger/logger');
+var authentication = require('./authentication');
+
 module.exports = function(passport) {
+  authentication(passport);
 
-  var express = require('express');
-  var crypto = require('crypto');
-  var router = express.Router();
-  var LocalStrategy = require('passport-local').Strategy;
-  var mongoose = require('mongoose');
-  var User = require('./model');
-  var logger = require('../logger/logger');
+  router.get('/', function(req, res){
+    User
+      .find()
+      .sort({ _id: -1 })
+      .exec(function(err, users) {
+        if (err)
+          return console.error(err);
 
-  passport.serializeUser(function(user, done) {
-    done(null, user);
+        res.render('user/list', { users: users });
+      });
   });
 
-  passport.deserializeUser(function(obj, done) {
-    done(null, obj);
+  router.get('/auth', function(req, res) {
+    res.render('user/auth');
   });
-
-  passport.use(new LocalStrategy({usernameField: 'email', passwordField: 'password'}, function(email, password, done) {
-    User.findOne({email: email}, function(err, user) {
-      if (err) {
-        return done(null, false, {
-          message: err,
-          status: "n"
-        });
-      } else if (!user) {
-        return done(null, false, {
-          message: "O usuário não existe.",
-          status: "n"
-        });
-      } else if (crypto.createHash('sha512').update(password).digest('hex') != user.password) {
-        return done(null, false, {
-          message: "A senha está incorreta.",
-          status: "n"
-        });
-      } else {
-        return done(null, user);
-      }
-    });
-  }));
 
   router.post('/auth', function(req, res, next) {
     passport.authenticate('local', function(err, user, response) {
+      logger('info', 'Authentication request: ' + req.body.email);
+
       if (err) {
-        return next(err);
+        logger('error', 'Authentication error: ' + req.body.email);
+        req.flash('error', err);
+        return res.redirect('/users/auth');
       }
+
       if (!user) {
-        res.json(response);
+        logger('error', 'Authentication error, user not found: ' + req.body.email);
+        req.flash(response.message);
+        return res.redirect('/users/auth');
       } else {
         req.logIn(user, function(err) {
           if (err) {
-            return next(err);
+            logger('error', err);
+            req.flash('error', err);
+            return res.redirect('/users/auth');
           }
-          return res.json(user);
+
+          logger('info', 'Authentication success: ' + req.body.email);
+          return res.redirect('/questions');
         });
       }
     })(req, res, next);
   });
 
-  router.get('/', function(req, res){
-    res.render('user/list');
-  });
-
   router.get('/new', function(req, res){
     res.render('user/new');
+  });
+
+  router.post('/new', function(req, res) {
+    var user = {
+      email: req.body.email,
+      name: req.body.name,
+      password: req.body.password && crypto.createHash('sha512').update(req.body.password).digest('hex'),
+      role: req.body.role
+    };
+
+    User.findOne({email: user.email}, function(err, userExists) {
+      if (err) {
+        res.locals.notifications = [{
+          level: 'error',
+          message: err
+        }];
+
+        res.render('user/new');
+        return;
+      } else if (userExists) {
+        res.locals.notifications = [{
+          level: 'error',
+          message: "O e-mail já está sendo utilizado por outro usuário."
+        }];
+
+        res.render('user/new');
+      } else {
+        User.create(user, function(err, user) {
+          if (err) {
+            res.locals.notifications = [{
+              level: 'error',
+              message: err
+            }];
+
+            res.render('user/new');
+          } else {
+            logger('info', 'Usuário com o e-mail ' + user.email + ' cadastrado.');
+
+            res.redirect('/users');
+          }
+        });
+      }
+    });
+  });
+
+ router.get('/edit', function(req, res){
+    res.render('user/new');
+  });
+
+  router.get('/register', function(req, res){
+    res.render('user/register');
   });
 
   router.post('/register', function(req, res) {
@@ -70,9 +113,10 @@ module.exports = function(passport) {
       email: req.body.email,
       name: req.body.name,
       password: req.body.password && crypto.createHash('sha512').update(req.body.password).digest('hex'),
-      roles: req.body.roles
+      role: 'student'
     };
-    User.findOne({email: user.email}, function(err, userExists) {
+
+    User.findOne({ email: user.email }, function(err, userExists) {
       if (err) {
         res.json({
           message: err,
@@ -95,7 +139,8 @@ module.exports = function(passport) {
               status: "s",
               message: "Usuário cadastrado com sucesso."
             });
-            logger.register('info', 'Usuário com o e-mail ' + user.email + ' cadastrado.');
+
+            logger('info', 'Usuário com o e-mail ' + user.email + ' cadastrado.');
           }
         });
       }
@@ -105,6 +150,7 @@ module.exports = function(passport) {
   router.post('/password/change', function(req, res) {
     var user = req.user;
     var password = req.body.password;
+
     User.findById(user._id, function(err, userExists) {
       if (err) {
         res.json({
@@ -140,6 +186,15 @@ module.exports = function(passport) {
     });
   });
 
+  router.get('/:id/remove', function(req, res) {
+    User.remove({ _id: req.params.id }, function(err) {
+      if (err)
+        return console.error(err);
+
+      res.redirect('/users');
+    });
+  });
+
   router.get('/isLogged', function(req, res) {
     if (req.user) {
       if (req.user.password) {
@@ -157,13 +212,11 @@ module.exports = function(passport) {
     }
   });
 
-  router.post('/logout', function(req, res) {
+  router.get('/logout', passport.authorize('local'), function(req, res) {
+    logger('info', 'User logout: ' + req.user.email)
     req.logout();
-    res.json({
-      authenticate: false
-    });
+    res.redirect('/users/auth');
   });
 
   return router;
-
 };

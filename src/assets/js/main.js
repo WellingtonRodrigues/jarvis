@@ -9,6 +9,10 @@
         .clone();
 
       $newFormGroup
+        .find('input')
+        .addClass('js-remove-row-if-empty');
+
+      $newFormGroup
         .insertBefore($closestFormGroup)
         .find('input[type="text"]')
         .removeAttr('placeholder')
@@ -25,6 +29,15 @@
       $(this)
         .closest('.form-group')
         .remove();
+    });
+
+    $(document).on('blur', '.js-remove-row-if-empty', function(e) {
+      var $this = $(this);
+
+      if ($this.val() == '')
+        $(this)
+          .closest('.form-group')
+          .remove();
     });
   });
 })(jQuery);
