@@ -11,7 +11,6 @@ var mongoose = require('mongoose');
 var logger = require('../logger/logger');
 var question = require('../question/question')(passport);
 var test = require('../test/test');
-var testResult = require('../testResult/testResult');
 var user = require('../user/user')(passport);
 
 var PORT = 8500;
@@ -100,7 +99,6 @@ var setFlashMessagesMiddleware = function() {
 var setModuleRoutingMiddleware = function() {
   expressApp.use('/questions', question);
   expressApp.use('/tests', test);
-  expressApp.use('/results', testResult);
   expressApp.use('/users', user);
 };
 

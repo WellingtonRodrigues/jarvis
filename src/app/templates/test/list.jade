@@ -9,33 +9,24 @@ block content
     .row
       .col-md-8
         .list-group
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/tests/1/edit") Teste 1
-                .col-sm-6.text-right
-                  a(href="/tests/1/results", title="Resultados").btn
-                    .fa.fa-check-square-o.fa-lg
-                  a(href="/tests/1/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/tests/1/remove").btn
-                    .fa.fa-trash.fa-lg
-
-          .list-group-item
-            .list-group-item-text
-              .row
-                .col-sm-6
-                  h4
-                    a(href="/tests/2/edit") Teste 2
-                .col-sm-6.text-right
-                  a(href="/tests/1/results", title="Resultados").btn
-                    .fa.fa-check-square-o.fa-lg
-                  a(href="/tests/2/edit").btn
-                    .fa.fa-pencil.fa-lg
-                  a(href="/tests/2/remove").btn
-                    .fa.fa-trash.fa-lg
+          if tests && tests.length > 0
+            each test in tests
+              .list-group-item
+                .list-group-item-text
+                  .row
+                    .col-sm-6
+                      h4: a(href="/tests/" + test._id + "/edit")= test.name
+                    .col-sm-6.text-right
+                      a(href="/tests/" + test._id + "/results", title="Resultados").btn
+                        .fa.fa-check-square-o.fa-lg
+                      a(href="/tests/" + test._id + "/edit").btn
+                        .fa.fa-pencil.fa-lg
+                      a(href="/tests/" + test._id + "/remove").btn
+                        .fa.fa-trash.fa-lg
+          else
+            .list-group-item
+              .list-group-item-text
+                p Nenhum teste encontrado.
 
       .col-md-4
         a(href="/tests/new").btn.btn-primary.btn-lg.btn-block Novo teste

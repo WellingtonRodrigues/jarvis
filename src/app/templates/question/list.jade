@@ -12,8 +12,8 @@ block content
           .form-group.form-inline Filtar por categoria:
             select.form-control
               option Todas as categorias
-              option Categoria A
-              option Categoria B
+              each category in categories
+                option(value=category._id)= category.name
 
         .list-group
           if questions && questions.length > 0

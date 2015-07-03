@@ -14,9 +14,15 @@ module.exports = function(passport) {
         if (err)
           logger('error', err);
 
-        console.log(questions);
+        QuestionCategory
+          .find()
+          .sort({ title: 1 })
+          .exec(function(err, categories) {
+            if (err)
+              logger('error', err);
 
-        res.render('question/list', { questions: questions });
+            res.render('question/list', { questions: questions, categories: categories });
+          });
       });
   });
 
@@ -65,6 +71,7 @@ module.exports = function(passport) {
       if (err)
         logger('error', err);
 
+      logger('info', 'Question removed: ', req.params.questionId);
       res.redirect('/questions');
     });
   });
@@ -108,6 +115,7 @@ module.exports = function(passport) {
         logger('error', err);
       }
 
+      logger('info', 'Category removed: ' + req.params.categoryId);
       res.redirect('/questions/categories');
     });
   });

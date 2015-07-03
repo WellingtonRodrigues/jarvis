@@ -11,4 +11,6 @@ var testSchema = new Schema({
   questions: [questionSchema]
 });
 
+var TestModel = mongoose.model('Test', testSchema, 'tests');
+
 module.exports = TestModel;
