@@ -42,15 +42,15 @@ Registra e consulta eventos do sistema. ([README](https://github.com/sergioaugro
 
 ### Question
 
-Banco de questões.
+Banco de questões. ([README](https://github.com/sergioaugrod/jarvis/tree/master/src/app/modules/question))
 
 ### Test
 
-Testes propriamente ditos, montado usando questões do banco de questões. Também é responsável por gerar, aplicar e exibir o resultado de testes.
+Testes propriamente ditos, montado usando questões do banco de questões. Também é responsável por gerar, aplicar e exibir o resultado de testes. ([README](https://github.com/sergioaugrod/jarvis/tree/master/src/app/modules/test))
 
 ### User
 
-Autenticação, autorização, cargos e competências.
+Autenticação, autorização, cargos e competências. ([README](https://github.com/sergioaugrod/jarvis/tree/master/src/app/modules/user))
 
 ### Importer
 

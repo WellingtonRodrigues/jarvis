@@ -1,10 +1,10 @@
 # Logger Module
 
-## Signature
+## Assinatura
 
 `logger(errorLevel, message[, consoleOutput = true])`
 
-## Example
+## Exemplo
 
 ```javascript
 var logger = require('/path/to/logger');
